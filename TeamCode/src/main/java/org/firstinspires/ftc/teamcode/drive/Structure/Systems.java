@@ -59,6 +59,12 @@ public class Systems {
     public double robotVelocity;
     public  boolean robotStationary;
 
+    public double calculatedRPM = 0;
+    public double targetFlyWheelRPM = 0;
+    public static double kV = 0;
+    public static double kS = 0;
+    public static double kP = 0;
+
     public void Run(){
         follower.update();
         llResult = limelight.getLLResult();
@@ -71,6 +77,33 @@ public class Systems {
         robotVelocity = Math.abs(follower.velocity().vx) + Math.abs(follower.velocity().vy);
 
         robotStationary = robotVelocity < VELOCITY_TRESHOLD;
+    }
+
+    public double getRpm(){
+        double encoderCPM = 28;
+        return ((Shooter_Motor1.getVelocity()/encoderCPM)*60);// / gearRatio;
+    }
+
+    public void calculateFlywheelMotorPowerRPM(double distance) {
+        double rpm;
+
+        rpm = 0.0000154195 * Math.pow(distance, 4)
+                - 0.00618559 * Math.pow(distance, 3)
+                + 0.869772 * Math.pow(distance, 2)
+                - 32.94057 * distance
+                + 3258.7466;
+
+        calculatedRPM = rpm;
+    }
+
+    public void updateFlyWheel(){
+        double currentRPM = getRpm();
+        double error = targetFlyWheelRPM - currentRPM;
+        double power = kS + kV * targetFlyWheelRPM + kP * error;
+        power = Math.max(0,Math.min(1,power));
+
+        Shooter_Motor1.setPower(power);
+        Shooter_Motor2.setPower(power);
     }
 
 }
