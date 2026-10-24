@@ -7,8 +7,11 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Systems {
     public LimeLightConfig limelight = new LimeLightConfig();
@@ -20,19 +23,22 @@ public class Systems {
     DcMotorEx Intake_RightMotor;
     DcMotorEx Shooter_Motor1;
     DcMotorEx Shooter_Motor2;
-
+    DistanceSensor IntakeDistanceSensor;
     public Systems(HardwareMap hwmap, Gamepad gmpd1, Gamepad gmpd2, Follower TeleopFollwer){
         gamepad1 = gmpd1;
         gamepad2 = gmpd2;
         this.follower = TeleopFollwer;
 
-        limelight.init(hwmap);
+        limelight.init(hwmap,this);
 
         Intake_RightMotor = hwmap.get(DcMotorEx.class, "Intake_LeftMotor");
-        Intake_RightMotor = hwmap.get(DcMotorEx.class,"Intake_RightMotor");
+        Intake_LeftMotor = hwmap.get(DcMotorEx.class,"Intake_RightMotor");
 
         Shooter_Motor1 = hwmap.get(DcMotorEx.class,"Shooter_Motor1");
         Shooter_Motor2 = hwmap.get(DcMotorEx.class,"Shooter_Motor2");
+
+        IntakeDistanceSensor = hwmap.get(DistanceSensor.class,"IntakeDistanceSensor");
+
 
         Intake_RightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         Intake_LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -65,6 +71,8 @@ public class Systems {
     public static double kS = 0;
     public static double kP = 0;
 
+    public double intakeDistanceSensor_Distance = 0.0;
+
     public void Run(){
         follower.update();
         llResult = limelight.getLLResult();
@@ -77,6 +85,9 @@ public class Systems {
         robotVelocity = Math.abs(follower.velocity().vx) + Math.abs(follower.velocity().vy);
 
         robotStationary = robotVelocity < VELOCITY_TRESHOLD;
+
+        intakeDistanceSensor_Distance = IntakeDistanceSensor.getDistance(DistanceUnit.CM);
+
     }
 
     public double getRpm(){
@@ -94,6 +105,14 @@ public class Systems {
                 + 3258.7466;
 
         calculatedRPM = rpm;
+    }
+    public void Intake(){
+        Intake_LeftMotor.setPower(1);
+        Intake_RightMotor.setPower(1);
+    }
+    public void stopIntake(){
+        Intake_LeftMotor.setPower(0);
+        Intake_RightMotor.setPower(0);
     }
 
     public void updateFlyWheel(){

@@ -4,7 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.drive.Structure.Chasis;
+import org.firstinspires.ftc.teamcode.drive.Structure.Chassis;
 import org.firstinspires.ftc.teamcode.drive.Structure.Systems;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
@@ -12,24 +12,25 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 public class BioBuzz_TeleOp extends LinearOpMode {
 
     public Follower follower;
-    Chasis chasis;
+    Chassis chassis;
     Systems systems;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        follower = Constants.create(hardwareMap);
 
-        chasis = new Chasis(follower,gamepad1);
+        chassis = new Chassis(follower,gamepad1);
         systems = new Systems(hardwareMap,gamepad1,gamepad2,follower);
 
         while (opModeInInit()){
-            follower = Constants.create(hardwareMap);
+
         }
 
         waitForStart();
 
         while (opModeIsActive()){
-            chasis.run();
+            chassis.run();
 
             telemetry.addData("X position", systems.x_position);
             telemetry.addData("Y position", systems.y_position);
