@@ -18,7 +18,6 @@ public class LimeLightConfig {
     public static Limelight3A limelight;
     Pose3D botPose;
     Systems systems;
-    Gamepad gamepad1,gamepad2;
 
     public static double Kp = 0.025;
     public static double MAX_TURN_SPEED = 0.35;
@@ -80,7 +79,9 @@ public class LimeLightConfig {
         LLResult llResult = limelight.getLatestResult();
         boolean ballVisible = llResult != null && llResult.isValid()
                 && llResult.getStaleness() < 200 && llResult.getPipelineIndex() == 1;
+
         double intakeDistance = systems.intakeDistanceSensor_Distance;
+
         boolean ballInIntake = intakeDistance > 0 && intakeDistance < DISTANCE_TRESHHOLD;
 
         if(ballInIntake && (ballVisible || state == TrackingState.TRACKING || state == TrackingState.INTAKING)){
@@ -97,6 +98,7 @@ public class LimeLightConfig {
             return;
         }
 
+        //TODO in timp ce merg spre bila sa dau la intake constant ca nu stiu cand sa il activez bazat doar pe senzori
         if(ballVisible){
             state = TrackingState.TRACKING;
             searchTimer.reset();
