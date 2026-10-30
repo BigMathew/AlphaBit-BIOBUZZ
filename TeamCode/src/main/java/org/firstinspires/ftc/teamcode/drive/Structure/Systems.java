@@ -31,8 +31,8 @@ public class Systems {
 
         limelight.init(hwmap,this);
 
-        Intake_RightMotor = hwmap.get(DcMotorEx.class, "Intake_LeftMotor");
-        Intake_LeftMotor = hwmap.get(DcMotorEx.class,"Intake_RightMotor");
+        Intake_LeftMotor  = hwmap.get(DcMotorEx.class, "Intake_LeftMotor");
+        Intake_RightMotor = hwmap.get(DcMotorEx.class,"Intake_RightMotor");
 
         Shooter_Motor1 = hwmap.get(DcMotorEx.class,"Shooter_Motor1");
         Shooter_Motor2 = hwmap.get(DcMotorEx.class,"Shooter_Motor2");

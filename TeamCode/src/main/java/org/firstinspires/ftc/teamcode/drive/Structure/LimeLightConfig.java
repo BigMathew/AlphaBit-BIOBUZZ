@@ -18,7 +18,6 @@ public class LimeLightConfig {
     public static Limelight3A limelight;
     Pose3D botPose;
     Systems systems;
-    Gamepad gamepad1,gamepad2;
 
     public static double Kp = 0.025;
     public static double MAX_TURN_SPEED = 0.35;
