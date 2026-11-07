@@ -12,11 +12,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.drive.Structure.BallDetection.LimeLightConfig;
 
 public class Systems {
     public LimeLightConfig limelight = new LimeLightConfig();
     Gamepad gamepad1,gamepad2;
-    Follower follower;
+    public Follower follower;
     LLResult llResult;
 
     DcMotorEx Intake_LeftMotor;

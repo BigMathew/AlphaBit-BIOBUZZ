@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.drive.Structure;
+package org.firstinspires.ftc.teamcode.drive.Structure.BallDetection;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.drive.Structure.Systems;
 
 @Configurable
 public class LimeLightConfigAdvanced {
@@ -55,7 +55,7 @@ public class LimeLightConfigAdvanced {
 
         LLResult llResult = getLLResult();
 
-        if(llResult == null || llResult.isValid() || llResult.getStaleness() > 200 || llResult.getPipelineIndex() != 2){
+        if(llResult == null || !llResult.isValid() || llResult.getStaleness() > 200 || llResult.getPipelineIndex() != 2){
             return null;
         }
 
